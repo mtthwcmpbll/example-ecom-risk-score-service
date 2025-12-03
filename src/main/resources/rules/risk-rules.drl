@@ -1,0 +1,24 @@
+package com.example.ecom.risk.rules;
+
+import com.example.ecom.risk.model.RiskCheckRequest;
+
+rule "Low Amount - High Score"
+    when
+        request : RiskCheckRequest(amount < 100)
+    then
+        request.setRiskScore("HIGH");
+end
+
+rule "Medium Amount - Medium Score"
+    when
+        request : RiskCheckRequest(amount >= 100, amount < 1000)
+    then
+        request.setRiskScore("MEDIUM");
+end
+
+rule "High Amount - Low Score"
+    when
+        request : RiskCheckRequest(amount >= 1000)
+    then
+        request.setRiskScore("LOW");
+end
