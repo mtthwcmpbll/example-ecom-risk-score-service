@@ -2,8 +2,7 @@ package com.example.ecom.risk.controller;
 
 import com.example.ecom.common.dto.ApiResponse;
 import com.example.ecom.risk.model.RiskCheckRequest;
-import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,14 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class RiskScoreController {
 
     @Autowired
-    private KieContainer kieContainer;
+    private com.example.ecom.risk.service.RiskScoreService riskScoreService;
 
     @PostMapping("/assess")
     public ApiResponse<RiskCheckRequest> assessRisk(@RequestBody RiskCheckRequest request) {
-        KieSession kieSession = kieContainer.newKieSession();
-        kieSession.insert(request);
-        kieSession.fireAllRules();
-        kieSession.dispose();
+        riskScoreService.assessRisk(request);
         return ApiResponse.success(request);
     }
 }
